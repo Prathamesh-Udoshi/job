@@ -2,29 +2,218 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Your Personalized Career Guide | JobSensei</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <title>Your Personalized Career Guide | Laksh.ai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-hover: #4338ca;
+      --background-color: #f9fafb;
+      --card-background: #ffffff;
+      --text-color: #111827;
+      --subtle-text: #6b7280;
+      --accent-color: #facc15;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: var(--background-color);
+      color: var(--text-color);
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--primary-color);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.8rem;
+    }
+
+    header p {
+      margin-top: 10px;
+      font-weight: 300;
+      font-size: 1.2rem;
+    }
+
+    main {
+      flex: 1;
+      padding: 40px 60px;
+      animation: popIn 1s ease;
+    }
+
+    section {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    section h2, section h3 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      text-align: center;
+      font-size: 2rem;
+    }
+
+    p {
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--subtle-text);
+    }
+
+    .suggestions-career {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+      margin-bottom: 50px;
+    }
+
+    .suggestions-career li {
+      background: var(--card-background);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .suggestions-career li:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-8px);
+    }
+
+    .suggestions-courses {
+      list-style: none;
+      padding: 0;
+      margin-top: 30px;
+      margin-bottom: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .suggestions-courses li {
+      width: 100%;
+      max-width: 600px;
+      background: var(--card-background);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .suggestions-courses li a {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: block;
+    }
+
+    .suggestions-courses li:hover {
+      background: var(--primary-color);
+    }
+
+    .suggestions-courses li:hover a {
+      color: white;
+    }
+
+    audio {
+      display: block;
+      margin: 30px auto;
+      width: 100%;
+      max-width: 500px;
+      outline: none;
+      border-radius: 10px;
+      background: var(--primary-color);
+    }
+
+    button {
+      display: block;
+      margin: 40px auto;
+      background: var(--primary-color);
+      color: white;
+      padding: 14px 40px;
+      border: none;
+      border-radius: 14px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    button:hover {
+      background: var(--primary-hover);
+      transform: scale(1.05);
+    }
+
+    footer {
+      background: #e5e7eb;
+      padding: 20px;
+      text-align: center;
+      font-size: 1rem;
+      color: var(--subtle-text);
+      border-top: 1px solid #d1d5db;
+      margin-top: auto;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
 <body>
+
   <header>
-    <h1>JobSensei</h1>
+    <h1>Laksh.ai</h1>
     <p>Your Personalized Career Suggestions</p>
   </header>
 
-  <main class="container">
+  <main>
     <section>
       <h2>Your Skills:</h2>
       <p>{{ skills }}</p>
 
       <h3>Top Career Suggestions:</h3>
-      <ul class="suggestions">
+      <ul class="suggestions-career">
         {% for career in careers %}
           <li>{{ career }}</li>
         {% endfor %}
       </ul>
 
       <h3>Recommended Courses:</h3>
-      <ul class="suggestions">
+      <ul class="suggestions-courses">
         {% for title, link in courses %}
           <li><a href="{{ link }}" target="_blank">{{ title }}</a></li>
         {% endfor %}
@@ -40,7 +229,8 @@
   <button onclick="window.location.href='/logout'">Logout</button>
 
   <footer>
-    <p>Crafted with dedication by @Pratham & Team</p>
+    <p>Crafted with dedication by @Pratham & Team | Empowering Futures ✨</p>
   </footer>
+
 </body>
 </html>

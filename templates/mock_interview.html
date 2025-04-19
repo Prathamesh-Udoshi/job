@@ -2,33 +2,136 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AI-Powered Mock Interview</title>
+  <title>AI-Powered Mock Interview | JobSensei</title>
   <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-hover: #4338ca;
+      --background-color: #f9fafb;
+      --text-color: #111827;
+      --accent-color: #facc15;
+      --card-bg: #ffffff;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
+
+    h1 {
+      text-align: center;
+      margin: 30px 0;
+      font-size: 2.8rem;
+      color: var(--primary-color);
+    }
+
+    #start-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 14px 28px;
+      font-size: 1.2rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #start-btn:hover {
+      background-color: var(--primary-hover);
+    }
+
     #interview-section {
-      display: none;
-      margin-top: 30px;
+      width: 100%;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+      animation: fadeIn 1s ease;
     }
+
+    form > div {
+      margin-bottom: 25px;
+    }
+
+    label {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
     textarea {
       width: 100%;
-      height: 100px;
       margin-top: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      margin-top: 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .feedback {
-      margin-top: 20px;
       padding: 15px;
-      background-color: #e1f5fe;
-      border: 1px solid #81d4fa;
+      font-size: 1rem;
+      border: 2px solid var(--primary-color);
+      border-radius: 10px;
+      resize: vertical;
+      min-height: 120px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    textarea:focus {
+      border-color: var(--primary-hover);
+      box-shadow: 0 0 8px var(--primary-hover);
+    }
+
+    form button[type="submit"] {
+      display: block;
+      margin: 30px auto 0 auto;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-size: 1.2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    form button[type="submit"]:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .feedback {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #e0f7fa;
+      border-left: 5px solid var(--primary-color);
+      border-radius: 10px;
+      font-size: 1.1rem;
+      animation: fadeIn 1s ease;
+    }
+
+    footer {
+      margin-top: auto;
+      background-color: #e5e7eb;
+      padding: 20px;
+      text-align: center;
+      font-size: 1rem;
+      color: #6b7280;
+      border-top: 1px solid #d1d5db;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
@@ -55,6 +158,10 @@
     <div id="feedback" class="feedback" style="display:none;"></div>
   </div>
 
+  <footer>
+    <p>Crafted with dedication by @Pratham & Team | Your Career Partner 🚀</p>
+  </footer>
+
   <script>
     document.getElementById("start-btn").addEventListener("click", function () {
       document.getElementById("interview-section").style.display = "block";
@@ -66,17 +173,15 @@
       const formData = new FormData(this);
       const answers = Object.fromEntries(formData.entries());
 
-      const response = await fetch("/analyze", {
+      const response = await fetch("/mock_interview/submit", {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json" 
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(answers)
       });
 
       const data = await response.json();
       const feedbackDiv = document.getElementById("feedback");
-      feedbackDiv.innerHTML = `<h3>Feedback</h3><p>${data.feedback.replaceAll("\\n", "<br>")}</p>`;
+      feedbackDiv.innerHTML = `<h3>Feedback</h3><p>${data.feedback}</p>`;
       feedbackDiv.style.display = "block";
     });
   </script>

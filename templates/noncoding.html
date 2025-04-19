@@ -2,13 +2,145 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Non-Coding Careers</title>
+    <title>Non-Coding Careers | Laksh.ai</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --background-color: #f9fafb;
+            --card-background: #ffffff;
+            --text-color: #111827;
+            --subtle-text: #6b7280;
+            --accent-color: #facc15;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header, .container {
+            width: 100%;
+        }
+
+        .container {
+            padding: 40px 60px;
+            animation: fadeIn 1s ease;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        #searchBox {
+            display: block;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 40px auto;
+            padding: 14px 20px;
+            border: 2px solid var(--primary-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #searchBox:focus {
+            border-color: var(--primary-hover);
+            box-shadow: 0 0 8px var(--primary-hover);
+        }
+
+        #rolesContainer {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .role-card {
+            background: var(--card-background);
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .role-card:hover {
+            transform: translateY(-8px);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .role-card h3 {
+            margin-top: 0;
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+        }
+
+        .role-card p {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .role-card strong {
+            font-weight: 600;
+        }
+
+        .role-card ul {
+            list-style: disc inside;
+            margin: 10px 0 0 0;
+            padding: 0;
+        }
+
+        .role-card li {
+            margin-bottom: 6px;
+        }
+
+        .role-card a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: color 0.3s;
+            word-break: break-word;
+        }
+
+        .role-card a:hover {
+            color: #fff;
+        }
+
+        footer {
+            margin-top: auto;
+            background: #e5e7eb;
+            padding: 20px;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--subtle-text);
+            border-top: 1px solid #d1d5db;
+            animation: fadeIn 2s ease;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
+
     <div class="container">
         <h2>Non-Coding Career Opportunities</h2>
         <input type="text" id="searchBox" onkeyup="filterRoles()" placeholder="Search roles...">
+
         <div id="rolesContainer">
             {% for role in roles %}
             <div class="role-card">
@@ -16,19 +148,21 @@
                 <p><strong>Exams:</strong> {{ role.exams | join(', ') }}</p>
                 <p><strong>Skills:</strong> {{ role.skills | join(', ') }}</p>
                 <p><strong>Average Salary:</strong> {{ role.average_salary }}</p>
-
-                <p><strong>Resources:</strong>
-                    <ul>
-                        {% for res in role.resources %}
-                        <li><a href="{{ res }}" target="_blank">{{ res }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </p>
+                <p><strong>Resources:</strong></p>
+                <ul>
+                    {% for res in role.resources %}
+                    <li><a href="{{ res }}" target="_blank">{{ res }}</a></li>
+                    {% endfor %}
+                </ul>
                 <p><strong>Scope:</strong> {{ role.scope }}</p>
             </div>
             {% endfor %}
         </div>
     </div>
+
+    <footer>
+        <p>Crafted with dedication by @Pratham & Team | Explore Limitless Possibilities 🚀</p>
+    </footer>
 
     <script>
         function filterRoles() {
@@ -40,5 +174,6 @@
             });
         }
     </script>
+
 </body>
 </html>

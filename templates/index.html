@@ -2,17 +2,529 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>JobSensei – Smart Career Navigator</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laksh.ai – Smart Career Navigator</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #F2F2F2;
+      color: #333333;
+      line-height: 1.6;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
 
+    h1, h2, h3 {
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #2F80ED;
+    }
+    
+    /* Navigation */
+    .navbar {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      padding: 15px 0;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar.scrolled {
+      padding: 10px 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .navbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #2F80ED;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo i {
+      margin-right: 10px;
+      font-size: 28px;
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 30px;
+    }
+    
+    .nav-links a {
+      color: #333333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      color: #2F80ED;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #2F80ED, #56CCF2);
+      color: white;
+      padding: 180px 0 100px;
+      text-align: center;
+      clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    }
+    
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      color: white;
+      animation: fadeInUp 1s ease;
+    }
+    
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      opacity: 0.9;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+    
+    .highlight {
+      color: #F2994A;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background-color: #F2994A;
+      border-radius: 3px;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      background-color: #27AE60;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(39, 174, 96, 0.4);
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+    
+    .btn-primary:hover {
+      background-color: #219653;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(39, 174, 96, 0.6);
+    }
+    
+    /* About Section */
+    .about {
+      padding: 80px 0;
+      text-align: center;
+      background-color: white;
+    }
+    
+    .about .container {
+      max-width: 800px;
+    }
+    
+    .about p {
+      font-size: 18px;
+    }
+    
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    
+    .feature-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 30px;
+      margin: 15px;
+      width: 300px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+      font-size: 40px;
+      color: #2F80ED;
+      margin-bottom: 20px;
+    }
+    
+    /* Search Container */
+    .search-container {
+      padding: 40px 0;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    #searchWidgetTrigger {
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 50px;
+      border: 2px solid #2F80ED;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(47, 128, 237, 0.2);
+    }
+    
+    #searchWidgetTrigger:focus {
+      border-color: #27AE60;
+      box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+    }
+    
+    /* Guidance Form */
+    .form-section {
+      padding: 80px 0;
+      text-align: center;
+      background: linear-gradient(135deg, #f5f7fa, #eef2f7);
+      border-radius: 10px;
+      margin: 20px auto;
+      max-width: 800px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    
+    form label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 500;
+    }
+    
+    .input-with-mic {
+      display: flex;
+      margin-bottom: 20px;
+    }
+    
+    input[type="text"], input[type="file"] {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    
+    #start-btn {
+      background-color: #2F80ED;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 0 15px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    #start-btn:hover {
+      background-color: #1e6cc7;
+    }
+    
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px;
+      background-color: #27AE60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 15px;
+    }
+    
+    button[type="submit"]:hover {
+      background-color: #219653;
+    }
+    
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      padding: 40px 0;
+    }
+    
+    .action-btn {
+      padding: 15px 25px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .action-btn i {
+      margin-right: 10px;
+    }
+    
+    .btn-grey {
+      background-color: #6c757d;
+      color: white;
+    }
+    
+    .btn-orange {
+      background-color: #F2994A;
+      color: white;
+    }
+    
+    .btn-green {
+      background-color: #27AE60;
+      color: white;
+    }
+    
+    .btn-blue {
+      background-color: #2F80ED;
+      color: white;
+    }
+    
+    .action-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    
+    /* Resume Builder Button */
+    #resumeBuilderBtn {
+      display: block;
+      width: 200px;
+      margin: 30px auto;
+      padding: 15px;
+      background-color: #2F80ED;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(47, 128, 237, 0.3);
+    }
+    
+    #resumeBuilderBtn:hover {
+      background-color: #1e6cc7;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(47, 128, 237, 0.4);
+    }
+    
+    /* Info Sections */
+    .info-section {
+      padding: 60px 0;
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      max-width: 1000px;
+    }
+    
+    .info-section h2 {
+      text-align: center;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .info-section h2:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background-color: #27AE60;
+    }
+    
+    .info-section ul {
+      list-style-type: none;
+      margin: 20px 0;
+    }
+    
+    .info-section li {
+      margin: 10px 0;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .info-section li:hover {
+      background-color: #f0f0f0;
+      transform: translateX(5px);
+    }
+    
+    .info-section a {
+      color: #2F80ED;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+    }
+    
+    .info-section a:hover {
+      text-decoration: underline;
+    }
+    
+    .info-section a:before {
+      content: '\f04b';
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      margin-right: 10px;
+      color: #F2994A;
+    }
+    
+    /* WhatsApp Button */
+    .whatsapp-container {
+      text-align: center;
+      margin: 40px 0;
+    }
+    
+    .whatsapp-link {
+      display: inline-flex;
+      align-items: center;
+      background-color: #25D366;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .whatsapp-link:hover {
+      background-color: #128C7E;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+    }
+    
+    .whatsapp-link i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: #333333;
+      color: white;
+      text-align: center;
+      padding: 30px 0;
+      margin-top: 50px;
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Chatbot Styling */
+    df-messenger {
+      --df-messenger-bot-message: #2F80ED;
+      --df-messenger-button-titlebar-color: #27AE60;
+      --df-messenger-chat-background-color: #fafafa;
+      --df-messenger-font-color: white;
+      --df-messenger-send-icon: #27AE60;
+      --df-messenger-user-message: #F2994A;
+    }
+  </style>
 </head>
 <body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="#" class="logo">
+        <i class="fas fa-robot"></i>
+        JobSensei
+      </a>
+      <ul class="nav-links">
+        <li><a href="#guidance">Get Started</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
 
-  
+  <!-- Hero Section -->
   <header class="hero">
     <div class="hero-content">
-      <h1>Welcome to <span class="highlight">JobSensei</span></h1>
+      <h1>Welcome to <span class="highlight">Laksh.ai</span></h1>
       <p>Your smart career navigator for Tier-2 & Tier-3 cities. Discover your path through skill insights or resume analysis.</p>
       <a href="#guidance" class="btn-primary">Get Started</a>
     </div>
@@ -21,16 +533,41 @@
   <!-- About Section -->
   <section class="about">
     <div class="container">
-      <h2>Why JobSensei?</h2>
+      <h2>Why Laksh.ai?</h2>
       <p>
         We built JobSensei to empower students and job-seekers in underserved regions with personalized career guidance. 
         Whether you enter your skills or upload a resume, we analyze your strengths and suggest ideal career paths — along with curated online courses.
       </p>
+      
+      <div class="features" id="features">
+        <div class="feature-card fade-in">
+          <div class="feature-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>Smart Job Matching</h3>
+          <p>Get job recommendations based on your unique skill set and experience</p>
+        </div>
+        
+        <div class="feature-card fade-in">
+          <div class="feature-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Learning Resources</h3>
+          <p>Access curated courses to improve skills relevant to your career goals</p>
+        </div>
+        
+        <div class="feature-card fade-in">
+          <div class="feature-icon">
+            <i class="fas fa-map-marked-alt"></i>
+          </div>
+          <h3>Career Roadmap</h3>
+          <p>Clear pathways to help you reach your professional destinations</p>
+        </div>
+      </div>
     </div>
   </section>
-  <!-- Widget JavaScript bundle -->
   <script src="https://cloud.google.com/ai/gen-app-builder/client?hl=en_GB"></script>
-
+  <!-- Search Section -->
   <div class="search-container">
     <!-- Input that triggers the search widget -->
     <input placeholder="Search your interested roles here..." id="searchWidgetTrigger" />
@@ -42,9 +579,8 @@
     triggerId="searchWidgetTrigger">
   </gen-search-widget>
   
-  
   <!-- Guidance Form -->
-  <section id="guidance" class="container form-section">
+  <section id="guidance" class="form-section fade-in">
     <h2>Get Career Guidance</h2>
     <form action="/analyze" method="POST" enctype="multipart/form-data">
       <label>
@@ -66,83 +602,125 @@
     </form>
   </section>
 
-  <a href="{{ url_for('noncoding_roles') }}">
-    <button class="btn btn-primary">Explore Non-Coding Career Options</button>
-  </a>
-
-  <a href="{{ url_for('quiz') }}" style="padding: 10px 20px; background-color: #007BFF; color: white; border-radius: 8px; text-decoration: none; font-weight: bold;">🎯 Take Career Quiz</a>
-  <link rel="stylesheet" href="/static/styles.css" />
-</head>
-<body>
-  
-  <main>
-    <button id="resumeBuilderBtn">Resume Builder</button>
-  </main>
-  <script>
-    document.getElementById('resumeBuilderBtn').onclick = () => {
-      window.location.href = '/resume';
-    };
-  </script>
-  
-  <!-- Add this button for Mock Interview -->
-  <div style="text-align: center; margin: 30px;">
-    <a href="{{ url_for('mock_interview') }}" class="btn-primary" style="padding: 10px 20px; background-color: #007BFF; color: white; border-radius: 8px; text-decoration: none; font-weight: bold;">📝 Start Mock Interview</a>
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <a href="{{ url_for('noncoding_roles') }}" class="action-btn btn-blue">
+      <i class="fas fa-laptop-code"></i> Explore Non-Coding Careers
+    </a>
+    
+    <a href="{{ url_for('job_roadmap') }}" class="action-btn btn-grey">
+      <i class="fas fa-road"></i> Career Roadmap
+    </a>
+    
+    <a href="{{ url_for('job_match') }}" class="action-btn btn-orange">
+      <i class="fas fa-search"></i> Job Match
+    </a>
+    
+    <a href="{{ url_for('mock_interview') }}" class="action-btn btn-green">
+      <i class="fas fa-comments"></i> Mock Interview
+    </a>
+    
+    <a href="{{ url_for('quiz') }}" class="action-btn btn-blue">
+      <i class="fas fa-tasks"></i> Take Career Quiz
+    </a>
   </div>
 
-  <!-- Motivation Section -->
-  <section class="container info-section">
-    <h2>Need Motivation?</h2>
-    <p>You're capable of more than you think. Watch these in Hindi & regional languages to stay inspired:</p>
-    <ul>
-      <li><a href="https://youtu.be/-vMtSYW0UqE?si=KgVp2WswAA4ehyu8" target="_blank">Power of Consistency – Video Advice (English)</a></li>
-      <li><a href="https://youtu.be/Dws4-ZhcutU?si=BouCBcHwcGYEMINP" target="_blank">Believe in Yourself – Sandeep Maheshwari (Hindi)</a></li>
-      <li><a href="https://youtu.be/S1ajCgz8uYw?si=_2-KSnlyiUhebPMU" target="_blank">Namma Yuva – Motivational Talk (Kannada)</a></li>
-    </ul>
-  </section>
+  <!-- Resume Builder Button -->
+  <button id="resumeBuilderBtn" class="fade-in">
+    <i class="fas fa-file-alt"></i> Resume Builder
+  </button>
 
-  <!-- Help Parents Understand Section -->
-  <section class="container info-section">
-    <h2>Help My Parents Understand</h2>
-    <p>Want to show your parents how today’s careers work? Share these videos in Hindi/Kannada:</p>
-    <ul>
-      <li><a href="https://youtu.be/wFODAxH9_MU?si=Fc6TBJvYAR0_2G0-" target="_blank">Career in IT – Explained Simply (Hindi)</a></li>
-      <li><a href="https://youtu.be/NSB2AN1SyuM?si=KWyyTkcCojeZpOLD" target="_blank">Work-from-Home Jobs Explained for Parents (Hindi)</a></li>
-      <li><a href="https://youtu.be/v4w6hy1GEzo?si=c5aWA5i1tQRS25WE" target="_blank">Kannada: Job Options After Degree</a></li>
-    </ul>
-  </section>
+  <!-- Resource Sections -->
+  <div id="resources">
+    <!-- Motivation Section -->
+    <section class="container info-section fade-in">
+      <h2>Need Motivation?</h2>
+      <p>You're capable of more than you think. Watch these in Hindi & regional languages to stay inspired:</p>
+      <ul>
+        <li><a href="https://youtu.be/-vMtSYW0UqE?si=KgVp2WswAA4ehyu8" target="_blank">Power of Consistency – Video Advice (English)</a></li>
+        <li><a href="https://youtu.be/Dws4-ZhcutU?si=BouCBcHwcGYEMINP" target="_blank">Believe in Yourself – Sandeep Maheshwari (Hindi)</a></li>
+        <li><a href="https://youtu.be/S1ajCgz8uYw?si=_2-KSnlyiUhebPMU" target="_blank">Namma Yuva – Motivational Talk (Kannada)</a></li>
+      </ul>
+    </section>
 
-  <!-- Career Guidance Videos Section -->
-  <section class="container info-section">
-    <h2>Career Guidance Videos</h2>
-    <p>Explore these short, helpful videos before choosing your path:</p>
-    <ul>
-      <li><a href="https://youtu.be/BvCCLk-R-4w?si=1Jw5TyJ_-vNnHUcl" target="_blank">What After 12th? – Hindi</a></li>
-      <li><a href="https://youtu.be/h-NjW4Wupzs?si=aqaew_ELNAW77738" target="_blank">How to Choose the Right Career? (Hindi)</a></li>
-      <li><a href="https://youtu.be/ZwP7kv0zHiY?si=tWNFTbdUiwW4BIXC" target="_blank">How to Make a Resume – Step-by-Step (Hindi)</a></li>
-      <li><a href="https://youtu.be/nwNny5QSWLY?si=RcxetGVTmaGIvqyF" target="_blank">Free Online Learning Platforms (Hindi)</a></li>
-    </ul>
-  </section>
+    <!-- Help Parents Understand Section -->
+    <section class="container info-section fade-in">
+      <h2>Help My Parents Understand</h2>
+      <p>Want to show your parents how today's careers work? Share these videos in Hindi/Kannada:</p>
+      <ul>
+        <li><a href="https://youtu.be/wFODAxH9_MU?si=Fc6TBJvYAR0_2G0-" target="_blank">Career in IT – Explained Simply (Hindi)</a></li>
+        <li><a href="https://youtu.be/NSB2AN1SyuM?si=KWyyTkcCojeZpOLD" target="_blank">Work-from-Home Jobs Explained for Parents (Hindi)</a></li>
+        <li><a href="https://youtu.be/v4w6hy1GEzo?si=c5aWA5i1tQRS25WE" target="_blank">Kannada: Job Options After Degree</a></li>
+      </ul>
+    </section>
 
-  <!-- Logout Button -->
-  <div style="text-align: center; margin: 30px;">
-    <button onclick="window.location.href='/logout'" class="btn-primary">Logout</button>
+    <!-- Career Guidance Videos Section -->
+    <section class="container info-section fade-in">
+      <h2>Career Guidance Videos</h2>
+      <p>Explore these short, helpful videos before choosing your path:</p>
+      <ul>
+        <li><a href="https://youtu.be/BvCCLk-R-4w?si=1Jw5TyJ_-vNnHUcl" target="_blank">What After 12th? – Hindi</a></li>
+        <li><a href="https://youtu.be/h-NjW4Wupzs?si=aqaew_ELNAW77738" target="_blank">How to Choose the Right Career? (Hindi)</a></li>
+        <li><a href="https://youtu.be/ZwP7kv0zHiY?si=tWNFTbdUiwW4BIXC" target="_blank">How to Make a Resume – Step-by-Step (Hindi)</a></li>
+        <li><a href="https://youtu.be/nwNny5QSWLY?si=RcxetGVTmaGIvqyF" target="_blank">Free Online Learning Platforms (Hindi)</a></li>
+      </ul>
+    </section>
   </div>
+
+  <!-- WhatsApp Contact -->
+  <div class="whatsapp-container">
+    <h2>Need Help? Contact us on</h2>
+    <a href="https://wa.me/message/NPYA5UKVKQALH1" target="_blank" class="whatsapp-link">
+      <i class="fab fa-whatsapp"></i> WhatsApp
+    </a>
+  </div>
+
+  <!-- Chatbot Integration -->
   <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-<df-messenger
-  intent="WELCOME"
-  chat-title="Chatbot"
-  agent-id="675221db-8976-4b3b-aeb3-b03002d96f65"
-  language-code="en"
-></df-messenger>
-<h2>Contact us on <a href="https://wa.me/message/NPYA5UKVKQALH1" target="_blank" class="whatsapp-link">WhatsApp</a></h2>
+  <df-messenger
+    intent="WELCOME"
+    chat-title="JobSensei Assistant"
+    agent-id="675221db-8976-4b3b-aeb3-b03002d96f65"
+    language-code="en">
+  </df-messenger>
 
   <!-- Footer -->
   <footer>
-    <p>Crafted with ❤️ by @Pratham & Team | © 2025 JobSensei</p>
+    <p>Crafted with <i class="fas fa-heart" style="color: #F2994A;"></i> by @Pratham & Team | © 2025 JobSensei</p>
   </footer>
 
-  <!-- JS: Toggle Inputs + Voice Input -->
+  <!-- JS: Toggle Inputs + Voice Input + Scroll Animations -->
   <script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+    
+    // Scroll animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1
+      });
+      
+      fadeElements.forEach(element => {
+        observer.observe(element);
+      });
+    });
+    
+    // Form toggle function
     function toggleInput(method) {
       const skillsInput = document.getElementById('skillsInput');
       const resumeInput = document.getElementById('resumeInput');
@@ -157,7 +735,46 @@
         resumeInput.disabled = false;
       }
     }
-  </script>
 
+    // Voice Input Handling
+    const startBtn = document.getElementById("start-btn");
+    const skillsInput = document.getElementById("skillsInput");
+
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+
+      recognition.continuous = false;
+      recognition.lang = 'en-IN';
+
+      startBtn.addEventListener("click", () => {
+        recognition.start();
+        startBtn.innerText = "🎙️ Listening...";
+      });
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        skillsInput.value = transcript;
+        startBtn.innerText = "🎤";
+      };
+
+      recognition.onerror = function(event) {
+        alert("Speech recognition error: " + event.error);
+        startBtn.innerText = "🎤";
+      };
+
+      recognition.onend = () => {
+        startBtn.innerText = "🎤";
+      };
+    } else {
+      startBtn.disabled = true;
+      startBtn.title = "Speech recognition not supported on your browser";
+    }
+    
+    // Resume builder button
+    document.getElementById('resumeBuilderBtn').onclick = () => {
+      window.location.href = '/resume';
+    };
+  </script>
 </body>
 </html>
