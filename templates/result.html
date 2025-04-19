@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Personalized Career Guide | JobSensei</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header>
+    <h1>JobSensei</h1>
+    <p>Your Personalized Career Suggestions</p>
+  </header>
+
+  <main class="container">
+    <section>
+      <h2>Your Skills:</h2>
+      <p>{{ skills }}</p>
+
+      <h3>Top Career Suggestions:</h3>
+      <ul class="suggestions">
+        {% for career in careers %}
+          <li>{{ career }}</li>
+        {% endfor %}
+      </ul>
+
+      <h3>Recommended Courses:</h3>
+      <ul class="suggestions">
+        {% for title, link in courses %}
+          <li><a href="{{ link }}" target="_blank">{{ title }}</a></li>
+        {% endfor %}
+      </ul>
+
+      <h3>Listen to Your Career Insights:</h3>
+      <audio controls autoplay>
+        <source src="{{ url_for('static', filename='output.mp3') }}" type="audio/mpeg">
+      </audio>
+    </section>
+  </main>
+  <button onclick="window.location.href='/logout'">Logout</button>
+
+
+  <footer>
+    <p>Crafted with dedication by @Pratham & Team</p>
+  </footer>
+</body>
+</html>

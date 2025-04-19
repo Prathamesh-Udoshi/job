@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login - JobSensei</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
+  <script type="module" src="/static/js/main.js" defer></script>
+</head>
+<body>
+  <div class="auth-container">
+    <h2>Login to JobSensei</h2>
+    <input type="email" id="login-email" placeholder="Email">
+    <input type="password" id="login-password" placeholder="Password">
+    <button onclick="loginUser()">Login</button>
+    <p>Don't have an account? <a href="/register">Register here</a></p>
+  </div>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="Chatbot"
+  agent-id="675221db-8976-4b3b-aeb3-b03002d96f65"
+  language-code="en"
+></df-messenger>
+  <div class="download-box">
+    <h2>
+      📥 If your internet is slow or you want a PDF for general career roles,
+      <a href="https://drive.google.com/uc?export=download&id=1XbKcIES90IYIPpkXeQE3QxjVU2MKZasv" download>
+        click here to download the roadmap
+      </a>
+    </h2>
+  </div>
+  
+</body>
+</html>

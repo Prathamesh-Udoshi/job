@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resume Builder - Jobsensi</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Build Your Resume</h1>
+  </header>
+  <main>
+    <form id="resumeForm" enctype="multipart/form-data" class="fade-in">
+      <label>
+        Your Picture:
+        <input type="file" id="photo" accept="image/*" />
+        <div id="photoPreview" class="photo-preview-circle"></div>
+      </label>
+
+      <label>
+        Personal Bio:
+        <textarea id="bio" placeholder="Write a short bio"></textarea>
+      </label>
+
+      <!-- Skills Section -->
+      <fieldset id="skillsSection">
+        <legend>Skills</legend>
+        <div class="dynamic-inputs" id="skillsInputs">
+          <input type="text" class="skill-input" placeholder="Enter a skill" />
+        </div>
+        <button type="button" id="addSkillBtn" class="small-btn">+ Add Skill</button>
+      </fieldset>
+
+      <!-- Education Section -->
+      <fieldset id="educationSection">
+        <legend>Education</legend>
+        <div class="dynamic-inputs" id="educationInputs">
+          <div class="education-entry">
+            <input type="text" class="degree-input" placeholder="Degree (e.g. B.Sc Computer Science)" />
+            <input type="text" class="edu-date-input" placeholder="Date (e.g. 2018 - 2022)" />
+            <button type="button" class="remove-btn" title="Remove Education">×</button>
+          </div>
+        </div>
+        <button type="button" id="addEducationBtn" class="small-btn">+ Add Education</button>
+      </fieldset>
+
+      <!-- Interests -->
+      <label>
+        Interests:
+        <input type="text" id="interests" placeholder="e.g. Coding, Reading" />
+      </label>
+
+      <!-- Projects -->
+      <label>
+        Projects:
+        <input type="text" id="projects" placeholder="e.g. Portfolio Website, Chat App" />
+      </label>
+
+      <!-- Experiences Section -->
+      <fieldset id="experienceSection">
+        <legend>Experiences</legend>
+        <div class="dynamic-inputs" id="experienceInputs">
+          <textarea class="experience-input" placeholder="Describe an experience"></textarea>
+          <button type="button" class="remove-btn" title="Remove Experience">×</button>
+        </div>
+        <button type="button" id="addExperienceBtn" class="small-btn">+ Add Experience</button>
+      </fieldset>
+
+      <button type="submit" class="animated-button">Generate Resume</button>
+      
+    </form>
+  </main>
+ 
+  
+  <script src="/static/script1.js"></script>
+</body>
+</html>

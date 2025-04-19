@@ -1,0 +1,206 @@
+[
+    {
+      "title": "Civil Services",
+      "exams": ["UPSC CSE", "State PSC"],
+      "skills": ["Analytical Thinking", "Current Affairs", "Leadership", "Decision Making"],
+      "resources": [
+        "https://iasbaba.com",
+        "https://visionias.in",
+        "https://www.insightsonindia.com"
+      ],
+      "scope": "Prestigious administrative roles in government sectors (IAS, IPS, IFS, etc).",
+      "average_salary": "₹70,000 – ₹2,50,000/month (based on role & seniority)"
+    },
+    {
+      "title": "Banking Jobs",
+      "exams": ["IBPS PO", "SBI Clerk", "RBI Grade B"],
+      "skills": ["Quantitative Aptitude", "Reasoning", "English", "Basic Banking Awareness"],
+      "resources": [
+        "https://www.bankersadda.com",
+        "https://www.practicemock.com" 
+      ],
+      "scope": "Government and private banking jobs with good job security and benefits.",
+      "average_salary": "₹25,000 – ₹90,000/month"
+    },
+    {
+      "title": "SSC & Railway Jobs",
+      "exams": ["SSC CGL", "RRB NTPC", "SSC CHSL"],
+      "skills": ["General Awareness", "Mathematics", "Logical Reasoning"],
+      "resources": [
+        "https://ssc.nic.in",
+        "https://testbook.com/ssc-cgl",
+        "https://www.exampundit.in"
+      ],
+      "scope": "Central government jobs with steady growth and nationwide postings.",
+      "average_salary": "₹30,000 – ₹70,000/month"
+    },
+    {
+      "title": "Digital Marketing",
+      "exams": ["Google Ads Certification", "HubSpot Content Marketing", "Meta Blueprint"],
+      "skills": ["SEO", "Social Media", "Analytics", "Creativity"],
+      "resources": [
+        "https://digitaldeepak.com",
+        "https://www.semrush.com/academy/",
+        "https://learndigital.withgoogle.com"
+      ],
+      "scope": "Fast-growing field with demand in startups, agencies & corporates.",
+      "average_salary": "₹20,000 – ₹1,00,000/month"
+    },
+    {
+      "title": "Content Writing & Copywriting",
+      "exams": [],
+      "skills": ["English Proficiency", "Research", "Creativity", "Grammar"],
+      "resources": [
+        "https://contentmarketinginstitute.com",
+        "https://neilpatel.com",
+        "https://www.grammarly.com/blog"
+      ],
+      "scope": "Opportunities in media, edtech, marketing agencies & freelancing.",
+      "average_salary": "₹15,000 – ₹80,000/month"
+    },
+    {
+      "title": "Law & Judiciary",
+      "exams": ["CLAT PG", "State Judiciary Exams"],
+      "skills": ["Legal Knowledge", "Critical Thinking", "Argumentation"],
+      "resources": [
+        "https://www.lawctopus.com",
+        "https://www.legalbites.in",
+        "https://www.barandbench.com"
+      ],
+      "scope": "Advocacy, corporate law, judiciary, legal consultancy, academics.",
+      "average_salary": "₹30,000 – ₹1,00,000/month"
+    },
+    {
+      "title": "Teaching (Govt & Private)",
+      "exams": ["CTET", "KARTET", "UGC NET", "TET (State)"],
+      "skills": ["Subject Expertise", "Communication", "Empathy", "Presentation"],
+      "resources": [
+        "https://nta.ac.in",
+        "https://ctet.nic.in",
+        "https://ugcnet.nta.nic.in"
+      ],
+      "scope": "Teaching roles in schools, colleges, coaching, and edtech platforms.",
+      "average_salary": "₹20,000 – ₹1,20,000/month"
+    },
+    {
+      "title": "Government Clerk & Assistant Jobs",
+      "exams": ["SSC CHSL", "State PSC Clerical", "IBPS Clerk"],
+      "skills": ["Typing", "Office Management", "Documentation", "Attention to Detail"],
+      "resources": [
+        "https://ssc.nic.in",
+        "https://www.ibps.in",
+        "https://www.indiapost.gov.in"
+      ],
+      "scope": "Back-office and admin roles in state & central government departments.",
+      "average_salary": "₹20,000 – ₹50,000/month"
+    },
+        {
+          "title": "Police Services",
+          "exams": ["State Police Exams", "SSC GD Constable", "CAPF (UPSC)"],
+          "skills": ["Physical Fitness", "Discipline", "Courage", "General Knowledge"],
+          "resources": [
+            "https://policeexamindia.com",
+            "https://ssc.nic.in",
+            "https://upsc.gov.in"
+          ],
+          "scope": "Join as constable, sub-inspector or officer in state/central police forces.",
+          "average_salary": "₹25,000 – ₹1,20,000/month"
+        },
+        {
+          "title": "Agriculture Officer",
+          "exams": ["IBPS AFO", "State Agriculture Exams"],
+          "skills": ["Agri Science Knowledge", "Field Inspection", "Communication"],
+          "resources": [
+            "https://agriexam.com",
+            "https://www.ibps.in",
+            "https://naukrihub.com/agriculture/agriculture-jobs"
+          ],
+          "scope": "Work in government or private sector to guide farmers and agricultural policies.",
+          "average_salary": "₹35,000 – ₹85,000/month"
+        },
+        {
+          "title": "Horticulture Development Officer",
+          "exams": ["State PSC Horticulture", "ICAR-JRF/SRF"],
+          "skills": ["Plant Science", "Nursery Management", "Field Expertise"],
+          "resources": [
+            "https://icar.org.in",
+            "https://www.hortidaily.com",
+            "https://krishijagran.com"
+          ],
+          "scope": "Public and private roles for crop planning, garden management, and research.",
+          "average_salary": "₹30,000 – ₹90,000/month"
+        },
+        {
+          "title": "Agripreneur (Agri Business Entrepreneur)",
+          "exams": [],
+          "skills": ["Agri Knowledge", "Marketing", "Financial Management", "Innovation"],
+          "resources": [
+        
+            "https://icar.org.in",
+            "https://startupindia.gov.in"
+          ],
+          "scope": "Build a startup in organic farming, processing, dairy, or agri-tech space.",
+          "average_salary": "₹20,000 – ₹5,00,000+/month (depends on business scale)"
+        },
+        {
+          "title": "Co-operative Bank Officer",
+          "exams": ["Co-operative Bank Exams", "IBPS RRB"],
+          "skills": ["Banking Knowledge", "Agri Finance", "Customer Service"],
+          "resources": [
+            "https://www.ibps.in",
+            "https://www.bankexamstoday.com",
+            "https://testbook.com"
+          ],
+          "scope": "Work in rural/agri-focused banks providing financial services to farmers.",
+          "average_salary": "₹25,000 – ₹75,000/month"
+        },
+        {
+          "title": "Farm Manager",
+          "exams": [],
+          "skills": ["Farm Operations", "Resource Planning", "Crop Monitoring", "Team Handling"],
+          "resources": [
+            "https://www.agrifarming.in",
+            "https://www.agricultureinformation.com"
+          ],
+          "scope": "Manage private or institutional farms in India or abroad.",
+          "average_salary": "₹20,000 – ₹80,000/month"
+        },
+        {
+          "title": "Entrepreneur (Business Owner)",
+          "exams": [],
+          "skills": ["Business Planning", "Marketing", "Finance", "Problem Solving"],
+          "resources": [
+            "https://startupindia.gov.in",
+            "https://yourstory.com",
+            "https://www.msme.gov.in"
+          ],
+          "scope": "Start and scale your own business in any domain – offline or online.",
+          "average_salary": "Varies widely (₹30,000 – ₹5,00,000+/month)"
+        },
+        {
+          "title": "Business Analyst (Non-Tech)",
+          "exams": [],
+          "skills": ["Data Interpretation", "Market Research", "Communication", "MS Excel"],
+          "resources": [
+            "https://corporatefinanceinstitute.com",
+            "https://www.analyticsvidhya.com",
+            "https://www.edx.org"
+          ],
+          "scope": "Work with businesses to improve performance through analysis and strategy.",
+          "average_salary": "₹40,000 – ₹1,20,000/month"
+        },
+        {
+          "title": "Retail & Store Management",
+          "exams": [],
+          "skills": ["Sales", "Customer Service", "Team Supervision", "Stock Handling"],
+          "resources": [
+            "https://www.retailinsights.com",
+            "https://www.coursera.org/learn/retail-management",
+            "https://www.linkedin.com/learning/topics/retail-management"
+          ],
+          "scope": "Manage stores or chains in fashion, electronics, grocery, etc.",
+          "average_salary": "₹20,000 – ₹80,000/month"
+        }
+       
+  ]
+  

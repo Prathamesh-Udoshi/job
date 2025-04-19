@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Preparation Quiz</title>
+    <link rel="stylesheet" href="/static/quiz.css">
+    </head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="header-title">Exam Buddy Quiz</h1>
+            <a href="{{ url_for('home') }}" class="home-btn">← Back to Home</a>
+
+        </header>
+        
+        <!-- Category Selection -->
+        <div id="category-selection">
+            <h2 class="category-title">Select a Quiz Category</h2>
+            <div class="category-grid">
+                <div class="category-card" data-id="18">
+                    <div class="category-icon">💻</div>
+                    <h3>Technical & Coding</h3>
+                </div>
+                
+                <div class="category-card" data-id="9">
+                    <div class="category-icon">🧠</div>
+                    <h3>General Knowledge</h3>
+                </div>
+                
+                <div class="category-card" data-id="25">
+                    <div class="category-icon">🏦</div>
+                    <h3>Banking & Finance</h3>
+                </div>
+                
+                <div class="category-card" data-id="24">
+                    <div class="category-icon">🏛️</div>
+                    <h3>Government Services</h3>
+                </div>
+                
+                
+                
+                <div class="category-card" data-id="22">
+                    <div class="category-icon">📋</div>
+                    <h3>Administrative Services</h3>
+                </div>
+                
+                <div class="category-card" data-id="27">
+                    <div class="category-icon">🌾</div>
+                    <h3>Agriculture & Horticulture</h3>
+                </div>
+            </div>
+            
+            <div class="difficulty-selection">
+                <h3 class="difficulty-title">Select Difficulty Level</h3>
+                <div class="difficulty-btns">
+                    <div class="difficulty-btn" data-difficulty="easy">Easy</div>
+                    <div class="difficulty-btn selected" data-difficulty="medium">Medium</div>
+                    <div class="difficulty-btn" data-difficulty="hard">Hard</div>
+                </div>
+            </div>
+            
+            <button id="start-btn" class="btn btn-primary">Start Quiz</button>
+        </div>
+        
+        <!-- Loading State -->
+        <div id="loading-container">
+            <div class="loader"></div>
+            <p class="loading-text">Loading questions...</p>
+        </div>
+        
+        <!-- Error State -->
+        <div id="error-container">
+            <h3 class="error-title">Oops! Something went wrong</h3>
+            <p class="error-message">Unable to load quiz questions. Please try again.</p>
+            <button id="retry-btn" class="btn btn-primary">Retry</button>
+        </div>
+        
+        <!-- Quiz Container -->
+        <div id="quiz-container">
+            <div class="quiz-header">
+                <div class="question-count">Question <span id="current-question">1</span>/<span id="total-questions">10</span></div>
+                <div id="timer" class="timer">30</div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div id="question" class="question"></div>
+            
+            <div id="options" class="options"></div>
+        </div>
+        
+        <!-- Results -->
+        <div id="result-container">
+            <h2 class="result-title">Quiz Complete!</h2>
+            
+            <div class="score-circle">
+                <span id="score-percent" class="score-text">0%</span>
+            </div>
+            
+            <div class="result-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Score:</span>
+                    <span><span id="correct-answers">0</span>/<span id="total-questions-result">10</span></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Category:</span>
+                    <span id="result-category">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Difficulty:</span>
+                    <span id="result-difficulty">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Time Spent:</span>
+                    <span id="time-spent">0 seconds</span>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button id="new-quiz-btn" class="btn btn-primary">New Quiz</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // DOM Elements
+        const categorySelection = document.getElementById('category-selection');
+        const loadingContainer = document.getElementById('loading-container');
+        const errorContainer = document.getElementById('error-container');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultContainer = document.getElementById('result-container');
+        
+        const categoryCards = document.querySelectorAll('.category-card');
+        const difficultyBtns = document.querySelectorAll('.difficulty-btn');
+        const startBtn = document.getElementById('start-btn');
+        const retryBtn = document.getElementById('retry-btn');
+        const newQuizBtn = document.getElementById('new-quiz-btn');
+        const homeBtn = document.getElementById('home-btn');
+        
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const timerElement = document.getElementById('timer');
+        const currentQuestionElement = document.getElementById('current-question');
+        const totalQuestionsElement = document.getElementById('total-questions');
+        const totalQuestionsResultElement = document.getElementById('total-questions-result');
+        const progressBar = document.getElementById('progress-bar');
+        
+        const scorePercentElement = document.getElementById('score-percent');
+        const correctAnswersElement = document.getElementById('correct-answers');
+        const resultCategoryElement = document.getElementById('result-category');
+        const resultDifficultyElement = document.getElementById('result-difficulty');
+        const timeSpentElement = document.getElementById('time-spent');
+        
+        // Quiz State
+        let selectedCategory = null;
+        let selectedDifficulty = 'medium';
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let timeLeft = 30;
+        let quizStartTime;
+        let totalTimeSpent = 0;
+        
+        // Map API category IDs to display names
+        const categoryMap = {
+            '18': 'Technical & Coding',
+            '9': 'General Knowledge',
+            '25': 'Banking & Finance',
+            '24': 'Government Services',
+            '23': 'Defence & Police Exams',
+            '22': 'Administrative Services',
+            '27': 'Agriculture & Horticulture'
+        };
+        
+        // Category Selection
+        categoryCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Deselect all cards
+                categoryCards.forEach(c => c.classList.remove('selected'));
+                
+                // Select clicked card
+                card.classList.add('selected');
+                selectedCategory = card.dataset.id;
+            });
+        });
+        
+        // Difficulty Selection
+        difficultyBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Deselect all buttons
+                difficultyBtns.forEach(b => b.classList.remove('selected'));
+                
+                // Select clicked button
+                btn.classList.add('selected');
+                selectedDifficulty = btn.dataset.difficulty;
+            });
+        });
+        
+        // Start Quiz
+        startBtn.addEventListener('click', () => {
+            if (!selectedCategory) {
+                alert('Please select a category!');
+                return;
+            }
+            
+            startQuiz();
+        });
+        
+        // Retry Loading
+        retryBtn.addEventListener('click', () => {
+            errorContainer.style.display = 'none';
+            startQuiz();
+        });
+        
+        // New Quiz
+        newQuizBtn.addEventListener('click', () => {
+            resultContainer.style.display = 'none';
+            categorySelection.style.display = 'block';
+            
+            // Reset category selection
+            categoryCards.forEach(card => card.classList.remove('selected'));
+            selectedCategory = null;
+        });
+        
+        // Back to Home
+        homeBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+        
+        // Fetch Questions from API
+        async function fetchQuestions(category, difficulty) {
+            try {
+                // For this example, we'll use the Open Trivia Database API
+                // In a real implementation, you'd use an API that has exam-specific questions
+                const response = await fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`);
+                const data = await response.json();
+                
+                if (data.response_code === 0) {
+                    return data.results;
+                } else {
+                    // If specific category/difficulty fails, try to get any questions
+                    const fallbackResponse = await fetch(`https://opentdb.com/api.php?amount=10&type=multiple`);
+                    const fallbackData = await fallbackResponse.json();
+                    
+                    if (fallbackData.response_code === 0) {
+                        return fallbackData.results;
+                    } else {
+                        throw new Error('Failed to fetch questions');
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching questions:', error);
+                throw error;
+            }
+        }
+        
+        // Start Quiz
+        async function startQuiz() {
+            // Show loading
+            categorySelection.style.display = 'none';
+            loadingContainer.style.display = 'block';
+            
+            try {
+                // Fetch questions
+                questions = await fetchQuestions(selectedCategory, selectedDifficulty);
+                
+                // Process and prepare questions
+                prepareQuestions();
+                
+                // Hide loading, show quiz
+                loadingContainer.style.display = 'none';
+                quizContainer.style.display = 'block';
+                
+                // Reset quiz state
+                currentQuestionIndex = 0;
+                score = 0;
+                totalTimeSpent = 0;
+                quizStartTime = new Date().getTime();
+                
+                // Update total questions count
+                totalQuestionsElement.textContent = questions.length;
+                totalQuestionsResultElement.textContent = questions.length;
+                
+                // Display first question
+                displayQuestion();
+            } catch (error) {
+                // Show error message
+                loadingContainer.style.display = 'none';
+                errorContainer.style.display = 'block';
+            }
+        }
+        
+        // Process and prepare questions
+        function prepareQuestions() {
+            questions.forEach(question => {
+                // Decode HTML entities
+                question.question = decodeHTML(question.question);
+                question.correct_answer = decodeHTML(question.correct_answer);
+                question.incorrect_answers = question.incorrect_answers.map(answer => decodeHTML(answer));
+                
+                // Combine and shuffle options
+                question.options = [...question.incorrect_answers, question.correct_answer];
+                question.options = shuffleArray(question.options);
+            });
+        }
+        
+        // Display Current Question
+        function displayQuestion() {
+            // Clear any existing timer
+            clearInterval(timer);
+            
+            // Reset timer
+            timeLeft = 30;
+            timerElement.textContent = timeLeft;
+            timerElement.classList.remove('warning');
+            
+            // Update current question number
+            currentQuestionElement.textContent = currentQuestionIndex + 1;
+            
+            // Update progress bar
+            const progress = (currentQuestionIndex / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            
+            // Get current question
+            const question = questions[currentQuestionIndex];
+            
+            // Display question
+            questionElement.textContent = question.question;
+            
+            // Display options
+            optionsElement.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => selectOption(option));
+                optionsElement.appendChild(optionElement);
+            });
+            
+            // Start timer
+            startTimer();
+        }
+        
+        // Start Timer
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                // Warning when time is running out
+                if (timeLeft <= 10) {
+                    timerElement.classList.add('warning');
+                }
+                
+                // Time's up
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+        
+        // Select Option
+        function selectOption(selectedOption) {
+            // Get current question
+            const question = questions[currentQuestionIndex];
+            
+            // Check if answer is correct
+            if (selectedOption === question.correct_answer) {
+                score++;
+            }
+            
+            // Move to next question
+            nextQuestion();
+        }
+        
+        // Next Question
+        function nextQuestion() {
+            // Clear timer
+            clearInterval(timer);
+            
+            // Move to next question
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < questions.length) {
+                // Display next question
+                displayQuestion();
+            } else {
+                // End quiz
+                endQuiz();
+            }
+        }
+        
+        // End Quiz
+        function endQuiz() {
+            // Calculate total time spent
+            const quizEndTime = new Date().getTime();
+            totalTimeSpent = Math.floor((quizEndTime - quizStartTime) / 1000);
+            
+            // Hide quiz container
+            quizContainer.style.display = 'none';
+            
+            // Update result details
+            correctAnswersElement.textContent = score;
+            scorePercentElement.textContent = `${Math.round((score / questions.length) * 100)}%`;
+            
+            // Update category and difficulty
+            resultCategoryElement.textContent = categoryMap[selectedCategory] || 'Unknown';
+            
+            // Capitalize first letter of difficulty
+            resultDifficultyElement.textContent = 
+                selectedDifficulty.charAt(0).toUpperCase() + 
+                selectedDifficulty.slice(1);
+            
+            // Update time spent
+            timeSpentElement.textContent = formatTime(totalTimeSpent);
+            
+            // Show result container
+            resultContainer.style.display = 'block';
+        }
+        
+        // Utility: Format time in seconds to minutes and seconds
+        function formatTime(seconds) {
+            if (seconds < 60) {
+                return `${seconds} seconds`;
+            }
+            
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            
+            return `${minutes} minute${minutes > 1 ? 's' : ''} ${remainingSeconds} second${remainingSeconds !== 1 ? 's' : ''}`;
+        }
+        
+        // Utility: Shuffle array
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+        
+        // Utility: Decode HTML entities
+        function decodeHTML(html) {
+            const txt = document.createElement('textarea');
+            txt.innerHTML = html;
+            return txt.value;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Non-Coding Careers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Non-Coding Career Opportunities</h2>
+        <input type="text" id="searchBox" onkeyup="filterRoles()" placeholder="Search roles...">
+        <div id="rolesContainer">
+            {% for role in roles %}
+            <div class="role-card">
+                <h3>{{ role.title }}</h3>
+                <p><strong>Exams:</strong> {{ role.exams | join(', ') }}</p>
+                <p><strong>Skills:</strong> {{ role.skills | join(', ') }}</p>
+                <p><strong>Average Salary:</strong> {{ role.average_salary }}</p>
+
+                <p><strong>Resources:</strong>
+                    <ul>
+                        {% for res in role.resources %}
+                        <li><a href="{{ res }}" target="_blank">{{ res }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </p>
+                <p><strong>Scope:</strong> {{ role.scope }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function filterRoles() {
+            let input = document.getElementById('searchBox').value.toLowerCase();
+            let cards = document.querySelectorAll('.role-card');
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent.toLowerCase();
+                card.style.display = title.includes(input) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

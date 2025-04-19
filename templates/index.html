@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JobSensei – Smart Career Navigator</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+
+  
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Welcome to <span class="highlight">JobSensei</span></h1>
+      <p>Your smart career navigator for Tier-2 & Tier-3 cities. Discover your path through skill insights or resume analysis.</p>
+      <a href="#guidance" class="btn-primary">Get Started</a>
+    </div>
+  </header>
+
+  <!-- About Section -->
+  <section class="about">
+    <div class="container">
+      <h2>Why JobSensei?</h2>
+      <p>
+        We built JobSensei to empower students and job-seekers in underserved regions with personalized career guidance. 
+        Whether you enter your skills or upload a resume, we analyze your strengths and suggest ideal career paths — along with curated online courses.
+      </p>
+    </div>
+  </section>
+  <!-- Widget JavaScript bundle -->
+  <script src="https://cloud.google.com/ai/gen-app-builder/client?hl=en_GB"></script>
+
+  <div class="search-container">
+    <!-- Input that triggers the search widget -->
+    <input placeholder="Search your interested roles here..." id="searchWidgetTrigger" />
+  </div>
+  
+  <!-- Google Cloud GenAI Search Widget -->
+  <gen-search-widget
+    configId="9888a9a0-4f49-4f3d-a263-d3e7c80ad2b5"
+    triggerId="searchWidgetTrigger">
+  </gen-search-widget>
+  
+  
+  <!-- Guidance Form -->
+  <section id="guidance" class="container form-section">
+    <h2>Get Career Guidance</h2>
+    <form action="/analyze" method="POST" enctype="multipart/form-data">
+      <label>
+        <input type="radio" name="input_method" value="manual" checked onchange="toggleInput('manual')">
+        Enter Skills
+      </label>
+      <div class="input-with-mic">
+        <input type="text" name="skills" id="skillsInput" placeholder="e.g., Python, SQL, Communication" required>
+        <button type="button" id="start-btn" title="Speak your skills">🎤</button>
+      </div>
+      <span id="output" style="display:none;"></span>
+
+      <label>
+        <input type="radio" name="input_method" value="resume" onchange="toggleInput('resume')">
+        Upload Resume (PDF)
+      </label>
+      <input type="file" name="resume" id="resumeInput" accept=".pdf" disabled>
+
+      <button type="submit">Analyze & Guide Me</button>
+    </form>
+  </section>
+
+  <a href="{{ url_for('noncoding_roles') }}">
+    <button class="btn btn-primary">Explore Non-Coding Career Options</button>
+  </a>
+
+  <a href="{{ url_for('quiz') }}" style="padding: 10px 20px; background-color: #007BFF; color: white; border-radius: 8px; text-decoration: none; font-weight: bold;">🎯 Take Career Quiz</a>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  
+  <main>
+    <button id="resumeBuilderBtn">Resume Builder</button>
+  </main>
+  <script>
+    document.getElementById('resumeBuilderBtn').onclick = () => {
+      window.location.href = '/resume';
+    };
+  </script>
+  
+  <!-- Add this button for Mock Interview -->
+  <div style="text-align: center; margin: 30px;">
+    <a href="{{ url_for('mock_interview') }}" class="btn-primary" style="padding: 10px 20px; background-color: #007BFF; color: white; border-radius: 8px; text-decoration: none; font-weight: bold;">📝 Start Mock Interview</a>
+  </div>
+
+  <!-- Motivation Section -->
+  <section class="container info-section">
+    <h2>Need Motivation?</h2>
+    <p>You're capable of more than you think. Watch these in Hindi & regional languages to stay inspired:</p>
+    <ul>
+      <li><a href="https://youtu.be/-vMtSYW0UqE?si=KgVp2WswAA4ehyu8" target="_blank">Power of Consistency – Video Advice (English)</a></li>
+      <li><a href="https://youtu.be/Dws4-ZhcutU?si=BouCBcHwcGYEMINP" target="_blank">Believe in Yourself – Sandeep Maheshwari (Hindi)</a></li>
+      <li><a href="https://youtu.be/S1ajCgz8uYw?si=_2-KSnlyiUhebPMU" target="_blank">Namma Yuva – Motivational Talk (Kannada)</a></li>
+    </ul>
+  </section>
+
+  <!-- Help Parents Understand Section -->
+  <section class="container info-section">
+    <h2>Help My Parents Understand</h2>
+    <p>Want to show your parents how today’s careers work? Share these videos in Hindi/Kannada:</p>
+    <ul>
+      <li><a href="https://youtu.be/wFODAxH9_MU?si=Fc6TBJvYAR0_2G0-" target="_blank">Career in IT – Explained Simply (Hindi)</a></li>
+      <li><a href="https://youtu.be/NSB2AN1SyuM?si=KWyyTkcCojeZpOLD" target="_blank">Work-from-Home Jobs Explained for Parents (Hindi)</a></li>
+      <li><a href="https://youtu.be/v4w6hy1GEzo?si=c5aWA5i1tQRS25WE" target="_blank">Kannada: Job Options After Degree</a></li>
+    </ul>
+  </section>
+
+  <!-- Career Guidance Videos Section -->
+  <section class="container info-section">
+    <h2>Career Guidance Videos</h2>
+    <p>Explore these short, helpful videos before choosing your path:</p>
+    <ul>
+      <li><a href="https://youtu.be/BvCCLk-R-4w?si=1Jw5TyJ_-vNnHUcl" target="_blank">What After 12th? – Hindi</a></li>
+      <li><a href="https://youtu.be/h-NjW4Wupzs?si=aqaew_ELNAW77738" target="_blank">How to Choose the Right Career? (Hindi)</a></li>
+      <li><a href="https://youtu.be/ZwP7kv0zHiY?si=tWNFTbdUiwW4BIXC" target="_blank">How to Make a Resume – Step-by-Step (Hindi)</a></li>
+      <li><a href="https://youtu.be/nwNny5QSWLY?si=RcxetGVTmaGIvqyF" target="_blank">Free Online Learning Platforms (Hindi)</a></li>
+    </ul>
+  </section>
+
+  <!-- Logout Button -->
+  <div style="text-align: center; margin: 30px;">
+    <button onclick="window.location.href='/logout'" class="btn-primary">Logout</button>
+  </div>
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+  intent="WELCOME"
+  chat-title="Chatbot"
+  agent-id="675221db-8976-4b3b-aeb3-b03002d96f65"
+  language-code="en"
+></df-messenger>
+<h2>Contact us on <a href="https://wa.me/message/NPYA5UKVKQALH1" target="_blank" class="whatsapp-link">WhatsApp</a></h2>
+
+  <!-- Footer -->
+  <footer>
+    <p>Crafted with ❤️ by @Pratham & Team | © 2025 JobSensei</p>
+  </footer>
+
+  <!-- JS: Toggle Inputs + Voice Input -->
+  <script>
+    function toggleInput(method) {
+      const skillsInput = document.getElementById('skillsInput');
+      const resumeInput = document.getElementById('resumeInput');
+
+      if (method === 'manual') {
+        skillsInput.disabled = false;
+        resumeInput.disabled = true;
+        resumeInput.value = null;
+      } else if (method === 'resume') {
+        skillsInput.disabled = true;
+        skillsInput.value = '';
+        resumeInput.disabled = false;
+      }
+    }
+
+    // Voice Input Handling
+    const startBtn = document.getElementById("start-btn");
+    const skillsInput = document.getElementById("skillsInput");
+
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+
+      recognition.continuous = false;
+      recognition.lang = 'en-IN';
+
+      startBtn.addEventListener("click", () => {
+        recognition.start();
+        startBtn.innerText = "🎙️ Listening...";
+      });
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        skillsInput.value = transcript;
+        startBtn.innerText = "🎤";
+      };
+
+      recognition.onerror = function(event) {
+        alert("Speech recognition error: " + event.error);
+        startBtn.innerText = "🎤";
+      };
+
+      recognition.onend = () => {
+        startBtn.innerText = "🎤";
+      };
+    } else {
+      startBtn.disabled = true;
+      startBtn.title = "Speech recognition not supported on your browser";
+    }
+  </script>
+
+</body>
+</html>
