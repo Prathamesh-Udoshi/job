@@ -1,4 +1,4 @@
-#from google.cloud import aiplatform
+
 
 # Enhanced skill-to-career role mapping
 skill_to_roles = {

@@ -53,7 +53,6 @@
       </label>
       <div class="input-with-mic">
         <input type="text" name="skills" id="skillsInput" placeholder="e.g., Python, SQL, Communication" required>
-        <button type="button" id="start-btn" title="Speak your skills">🎤</button>
       </div>
       <span id="output" style="display:none;"></span>
 
@@ -157,41 +156,6 @@
         skillsInput.value = '';
         resumeInput.disabled = false;
       }
-    }
-
-    // Voice Input Handling
-    const startBtn = document.getElementById("start-btn");
-    const skillsInput = document.getElementById("skillsInput");
-
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      const recognition = new SpeechRecognition();
-
-      recognition.continuous = false;
-      recognition.lang = 'en-IN';
-
-      startBtn.addEventListener("click", () => {
-        recognition.start();
-        startBtn.innerText = "🎙️ Listening...";
-      });
-
-      recognition.onresult = function(event) {
-        const transcript = event.results[0][0].transcript;
-        skillsInput.value = transcript;
-        startBtn.innerText = "🎤";
-      };
-
-      recognition.onerror = function(event) {
-        alert("Speech recognition error: " + event.error);
-        startBtn.innerText = "🎤";
-      };
-
-      recognition.onend = () => {
-        startBtn.innerText = "🎤";
-      };
-    } else {
-      startBtn.disabled = true;
-      startBtn.title = "Speech recognition not supported on your browser";
     }
   </script>
 

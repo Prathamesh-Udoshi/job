@@ -53,21 +53,30 @@ def logout():
 @app.route('/analyze', methods=['POST'])
 def analyze():
     try:
-        # Assuming JSON data is sent
-        answers = request.get_json()  # Receive answers as JSON
+        input_method = request.form['input_method']
+        if input_method == 'manual':
+            skills = request.form['skills']
+        else:
+            resume = request.files['resume']
+            skills = parse_resume(resume)
 
-        # Validate that answers exist
-        if not answers:
-            return jsonify({"error": "No answers received"}), 400
+        if not skills:
+            return render_template('result.html', skills="No skills found", careers=[], courses=[])
 
-        feedback = start_mock_interview(answers)  # Process answers with mock interview logic
+        careers = suggest_careers(skills)
 
-        return jsonify({"feedback": feedback})  # Return feedback as JSON
+        if not careers or careers[0].startswith("Career suggestion not available"):
+            return render_template('result.html', skills=skills, careers=careers, courses=[])
+
+        courses = suggest_courses(careers[0])
+
+        translate_and_speak(f"Best job role for you: {careers[0]}")
+
+        return render_template('result.html', skills=skills, careers=careers, courses=courses)
 
     except Exception as e:
         print("[Error]:", e)
-        return jsonify({"error": "An error occurred while processing your request"}), 500
-
+        return render_template('result.html', skills="Error", careers=["Something went wrong."], courses=[])
 @app.route('/resume')
 def resume():
     return render_template('resume.html')
