@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI-Powered Mock Interview</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    #interview-section {
+      display: none;
+      margin-top: 30px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .feedback {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #e1f5fe;
+      border: 1px solid #81d4fa;
+    }
+  </style>
+</head>
+<body>
+  <h1>AI-Powered Mock Interview</h1>
+  <button id="start-btn">Start Mock Interview</button>
+
+  <div id="interview-section">
+    <form id="interview-form">
+      <div>
+        <label>1. Tell me about yourself:</label>
+        <textarea name="q1" required></textarea>
+      </div>
+      <div>
+        <label>2. What are your strengths and weaknesses?</label>
+        <textarea name="q2" required></textarea>
+      </div>
+      <div>
+        <label>3. Why should we hire you?</label>
+        <textarea name="q3" required></textarea>
+      </div>
+      <button type="submit">Submit Answers</button>
+    </form>
+    <div id="feedback" class="feedback" style="display:none;"></div>
+  </div>
+
+  <script>
+    document.getElementById("start-btn").addEventListener("click", function () {
+      document.getElementById("interview-section").style.display = "block";
+      this.style.display = "none";
+    });
+
+    document.getElementById("interview-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const answers = Object.fromEntries(formData.entries());
+
+      const response = await fetch("/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(answers)
+      });
+
+      const data = await response.json();
+      const feedbackDiv = document.getElementById("feedback");
+      feedbackDiv.innerHTML = `<h3>Feedback</h3><p>${data.feedback}</p>`;
+      feedbackDiv.style.display = "block";
+    });
+  </script>
+</body>
+</html>

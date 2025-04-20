@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Job Roadmap Generator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f4f7f6;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem 3rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #264653;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 700;
+      color: #264653;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      border-color: #2a9d8f;
+      outline: none;
+    }
+
+    button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      background-color: #2a9d8f;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
+
+    button:hover {
+      background-color: #21867a;
+    }
+
+    #result {
+      margin-top: 2rem;
+      white-space: pre-wrap;
+      background: #e9f5f2;
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      color: #264653;
+      min-height: 150px;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Job Roadmap Generator</h1>
+    <form id="roadmapForm">
+      <label for="jobs">Job(s):</label>
+      <input type="text" id="jobs" name="jobs" placeholder="e.g. Data Scientist, Software Engineer" required />
+
+      <label for="timeline">Timeline:</label>
+      <input type="text" id="timeline" name="timeline" placeholder="e.g. 6 months, 1 year plan" required />
+
+      <button type="submit">Generate Roadmap</button>
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('roadmapForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      resultDiv.textContent = 'Generating roadmap...';
+
+      const formData = new FormData(form);
+      const response = await fetch('/generate_job_roadmap', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        const lines = data.roadmap.split('\n');
+        const highlightedLines = lines.map(line => {
+          if (/^\d+\./.test(line.trim())) {
+            return '<strong style="color: #2a9d8f;">' + line + '</strong>';
+          }
+          return line;
+        });
+        resultDiv.innerHTML = highlightedLines.join('<br>');
+      } else {
+        resultDiv.textContent = data.error || 'Error generating roadmap';
+      }
+    });
+  </script>
+</body>
+</html>

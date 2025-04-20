@@ -3,12 +3,16 @@ from utils.resume_parser import parse_resume
 from utils.vertex_api import suggest_careers
 from utils.youtube_api import suggest_courses
 from utils.translator import translate_and_speak
-from utils.mock_logic import start_mock_interview  # Import mock interview logic
+import google.generativeai as genai
 import os
 import json
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'  # Replace with a secure key in production
+
+# Configure the Gemini API
+GOOGLE_API_KEY = "AIzaSyDHC5gKZCf30cM7kFDXEoC8xpy6fVAqZbw"
+genai.configure(api_key=GOOGLE_API_KEY)
 
 # ----------------------
 # Utility Function to Load JSON Roles
@@ -21,6 +25,39 @@ def load_noncoding_roles():
     except Exception as e:
         print("Error loading JSON:", e)
         return []
+
+import re
+
+def get_job_suggestions(skills):
+    # Initialize the Gemini model
+    model = genai.GenerativeModel('gemini-1.5-pro')
+    
+    # Create the prompt
+    prompt = f"""Based on the following skills: {skills}
+    Please suggest 5 suitable job roles and provide a brief description for each.
+    Format the response as:
+    1. Job Title: Description
+    2. Job Title: Description
+    etc."""
+    
+    # Generate the response
+    response = model.generate_content(prompt)
+    
+    # Format the response to ensure each suggestion starts on a new line
+    text = response.text.strip()
+    # Insert a newline before each numbered item if not already present
+    formatted_text = re.sub(r'(?<!\n)(\d+\.)', r'\n\1', text)
+    
+    # Parse the formatted text into a list of suggestion objects
+    suggestions = []
+    pattern = re.compile(r'(\d+)\.\s*([^:]+):\s*(.+)')
+    for line in formatted_text.split('\n'):
+        match = pattern.match(line.strip())
+        if match:
+            title = match.group(2).strip()
+            description = match.group(3).strip()
+            suggestions.append({'title': title, 'description': description})
+    return suggestions
 
 # ----------------------
 # Routes
@@ -77,6 +114,23 @@ def analyze():
     except Exception as e:
         print("[Error]:", e)
         return render_template('result.html', skills="Error", careers=["Something went wrong."], courses=[])
+
+@app.route('/job_match')
+def job_match():
+    return render_template('job_match.html')
+
+@app.route('/suggest', methods=['POST'])
+def suggest():
+    skills = request.form.get('skills')
+    if not skills:
+        return jsonify({'error': 'Please enter at least one skill.'})
+    try:
+        suggestions = get_job_suggestions(skills)
+        # Return the list of suggestion objects
+        return jsonify({'suggestions': suggestions})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
 @app.route('/resume')
 def resume():
     return render_template('resume.html')
@@ -94,18 +148,45 @@ def noncoding_roles():
 def quiz():
     return render_template('quiz.html')
 
-# ----------------------
-# Mock Interview Route
-# ----------------------
+# New route to serve mock interview page
 @app.route('/mock_interview')
 def mock_interview():
+    return render_template('mock_interview.html')
+
+# New route to handle mock interview form submission
+
+from utils.ai_logic import analyze_answers
+
+@app.route('/mock_interview/submit', methods=['POST'])
+def mock_interview_submit():
+    data = request.get_json()
+    feedback = analyze_answers(data)
+    return jsonify({'feedback': feedback})
+
+@app.route('/job_roadmap')
+def job_roadmap():
+    return render_template('job_roadmap.html')
+
+@app.route('/generate_job_roadmap', methods=['POST'])
+def generate_job_roadmap():
+    jobs = request.form.get('jobs')
+    timeline = request.form.get('timeline')
+
+    if not jobs or not timeline:
+        return jsonify({'error': 'Please provide both job(s) and timeline.'}), 400
+
+    prompt = f"""Create a detailed roadmap for becoming a {jobs} within {timeline}. 
+    Include key skills, milestones, and suggested learning resources."""
+
     try:
-        # Call the logic from mock_logic.py
-        interview_questions = start_mock_interview()
-        return render_template('mock_interview.html', questions=interview_questions)
+        model = genai.GenerativeModel('gemini-1.5-pro')
+        response = model.generate_content(prompt)
+        roadmap_text = response.text.strip()
+        # Remove markdown bold and heading syntax
+        cleaned_text = roadmap_text.replace('**', '').replace('##', '')
+        return jsonify({'roadmap': cleaned_text})
     except Exception as e:
-        print("[Error]:", e)
-        return render_template('mock_interview.html', error="Something went wrong with the interview.")
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

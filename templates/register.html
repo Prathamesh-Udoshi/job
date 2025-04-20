@@ -1,19 +1,265 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Register - JobSensei</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Laksh.ai</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js"></script>
   <script type="module" src="/static/js/main.js" defer></script>
+  
+  <style>
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #F2F2F2;
+      color: #333333;
+      line-height: 1.6;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(47, 128, 237, 0.1), rgba(39, 174, 96, 0.1));
+    }
+    
+    /* Auth Container */
+    .auth-container {
+      background-color: white;
+      border-radius: 12px;
+      padding: 40px;
+      width: 90%;
+      max-width: 450px;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.8s ease;
+    }
+    
+    .auth-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #2F80ED, #27AE60, #F2994A);
+    }
+    
+    .auth-container h2 {
+      color: #2F80ED;
+      margin-bottom: 30px;
+      font-size: 28px;
+      font-weight: 700;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .auth-container h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background-color: #27AE60;
+    }
+    
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #2F80ED;
+      text-decoration: none;
+    }
+    
+    .logo i {
+      margin-right: 10px;
+      font-size: 28px;
+    }
+    
+    /* Form Elements */
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 50px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      outline: none;
+      animation: slideUp 0.5s ease;
+    }
+    
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #2F80ED;
+      box-shadow: 0 0 10px rgba(47, 128, 237, 0.2);
+    }
+    
+    input[type="email"] {
+      animation-delay: 0.1s;
+    }
+    
+    input[type="password"] {
+      animation-delay: 0.2s;
+    }
+    
+    button {
+      width: 100%;
+      padding: 15px;
+      background-color: #27AE60;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+      animation: slideUp 0.5s ease 0.3s both;
+    }
+    
+    button:hover {
+      background-color: #219653;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(39, 174, 96, 0.4);
+    }
+    
+    .auth-container p {
+      color: #666;
+      animation: fadeIn 0.8s ease 0.5s both;
+    }
+    
+    .auth-container a {
+      color: #2F80ED;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    
+    .auth-container a:hover {
+      color: #F2994A;
+      text-decoration: underline;
+    }
+    
+    /* Go back link */
+    .go-back {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #666;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .go-back i {
+      margin-right: 5px;
+    }
+    
+    .go-back:hover {
+      color: #2F80ED;
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .auth-container {
+        width: 90%;
+        padding: 30px;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="auth-container">
-    <h2>Register for JobSensei</h2>
-    <input type="email" id="register-email" placeholder="Email">
-    <input type="password" id="register-password" placeholder="Password">
+    <a href="/" class="go-back">
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+    
+    <div class="logo">
+      <i class="fas fa-robot"></i>
+      JobSensei
+    </div>
+    
+    <h2>Create Your Account</h2>
+    
+    <input type="email" id="register-email" placeholder="Email" required>
+    <input type="password" id="register-password" placeholder="Password (minimum 6 characters)" required>
+    
     <button onclick="registerUser()">Register</button>
+    
     <p>Already have an account? <a href="/login">Login here</a></p>
   </div>
+
+  <script>
+    // Simple form validation
+    document.getElementById('register-email').addEventListener('blur', function() {
+      validateEmail(this);
+    });
+    
+    document.getElementById('register-password').addEventListener('blur', function() {
+      validatePassword(this);
+    });
+    
+    function validateEmail(input) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(input.value)) {
+        input.style.borderColor = '#ff4d4d';
+        return false;
+      } else {
+        input.style.borderColor = '#27AE60';
+        return true;
+      }
+    }
+    
+    function validatePassword(input) {
+      if (input.value.length < 6) {
+        input.style.borderColor = '#ff4d4d';
+        return false;
+      } else {
+        input.style.borderColor = '#27AE60';
+        return true;
+      }
+    }
+  </script>
 </body>
 </html>

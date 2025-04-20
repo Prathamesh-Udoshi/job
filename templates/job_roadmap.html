@@ -331,43 +331,43 @@
       roadmapTextDiv.innerHTML = '';
 
       // Simulate API call for demonstration
-      setTimeout(() => {
-        const jobsInput = document.getElementById('jobs').value;
-        const timelineInput = document.getElementById('timeline').value;
+      // setTimeout(() => {
+      //   const jobsInput = document.getElementById('jobs').value;
+      //   const timelineInput = document.getElementById('timeline').value;
         
-        // Generate a mock roadmap response
-        const mockRoadmap = generateMockRoadmap(jobsInput, timelineInput);
+      //   // Generate a mock roadmap response
+      //   const mockRoadmap = generateMockRoadmap(jobsInput, timelineInput);
         
-        // Parse and format the roadmap text
-        const lines = mockRoadmap.split('\n');
-        let formattedHtml = '';
-        let currentMilestone = '';
+      //   // Parse and format the roadmap text
+      //   const lines = mockRoadmap.split('\n');
+      //   let formattedHtml = '';
+      //   let currentMilestone = '';
         
-        lines.forEach((line, index) => {
-          if (/^\d+\./.test(line.trim())) {
-            // This is a milestone header
-            if (currentMilestone) {
-              formattedHtml += '</div>'; // Close previous milestone
-            }
-            formattedHtml += `<div class="milestone" style="animation-delay: ${index * 0.1}s">`;
-            formattedHtml += `<strong>${line}</strong>`;
-            currentMilestone = line;
-          } else if (line.trim()) {
-            // This is content under a milestone
-            formattedHtml += `<p>${line}</p>`;
-          }
-        });
+      //   lines.forEach((line, index) => {
+      //     if (/^\d+\./.test(line.trim())) {
+      //       // This is a milestone header
+      //       if (currentMilestone) {
+      //         formattedHtml += '</div>'; // Close previous milestone
+      //       }
+      //       formattedHtml += `<div class="milestone" style="animation-delay: ${index * 0.1}s">`;
+      //       formattedHtml += `<strong>${line}</strong>`;
+      //       currentMilestone = line;
+      //     } else if (line.trim()) {
+      //       // This is content under a milestone
+      //       formattedHtml += `<p>${line}</p>`;
+      //     }
+      //   });
         
-        if (currentMilestone) {
-          formattedHtml += '</div>'; // Close the last milestone
-        }
+      //   if (currentMilestone) {
+      //     formattedHtml += '</div>'; // Close the last milestone
+      //   }
         
-        roadmapTextDiv.innerHTML = formattedHtml;
-        loadingDiv.style.display = 'none';
-      }, 2000);
+      //   roadmapTextDiv.innerHTML = formattedHtml;
+      //   loadingDiv.style.display = 'none';
+      // }, 2000);
 
       // Uncomment this section and replace the setTimeout above when implementing with a real API
-      /*
+      
       try {
         const formData = new FormData(form);
         
@@ -412,7 +412,7 @@
         // Hide loading animation
         loadingDiv.style.display = 'none';
       }
-      */
+      
     });
 
     // Function to generate a mock roadmap for demonstration

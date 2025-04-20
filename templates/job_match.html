@@ -359,46 +359,46 @@
             suggestionsDiv.innerHTML = '<p class="loading">Generating suggestions... Please wait</p>';
 
             // Simulate fetch since actual endpoint may not exist
-            setTimeout(() => {
-                try {
-                    // This is a mock response - in a real app you'd use the fetch API
-                    const mockData = {
-                        suggestions: [
-                            {
-                                title: "Data Scientist",
-                                description: "Analyze large datasets and build machine learning models to extract insights and solve business problems."
-                            },
-                            {
-                                title: "Machine Learning Engineer",
-                                description: "Develop and deploy machine learning algorithms and systems for production environments."
-                            },
-                            {
-                                title: "Data Analyst",
-                                description: "Process and analyze data to help businesses make better decisions through visualizations and reports."
-                            }
-                        ]
-                    };
+            // setTimeout(() => {
+            //     try {
+            //         // This is a mock response - in a real app you'd use the fetch API
+            //         const mockData = {
+            //             suggestions: [
+            //                 {
+            //                     title: "Data Scientist",
+            //                     description: "Analyze large datasets and build machine learning models to extract insights and solve business problems."
+            //                 },
+            //                 {
+            //                     title: "Machine Learning Engineer",
+            //                     description: "Develop and deploy machine learning algorithms and systems for production environments."
+            //                 },
+            //                 {
+            //                     title: "Data Analyst",
+            //                     description: "Process and analyze data to help businesses make better decisions through visualizations and reports."
+            //                 }
+            //             ]
+            //         };
 
                     // Display mock suggestions with staggered animation
-                    let html = '';
-                    mockData.suggestions.forEach((suggestion, index) => {
-                        html += `
-                            <div class="suggestion-item" style="animation-delay: ${index * 0.2}s">
-                                <div class="job-title">${suggestion.title}</div>
-                                <div class="job-description">${suggestion.description}</div>
-                            </div>
-                        `;
-                    });
-                    suggestionsDiv.innerHTML = html;
-                } catch (error) {
-                    console.error('Error:', error);
-                    suggestionsDiv.innerHTML = '<p class="error">An error occurred while generating suggestions. Please try again later.</p>';
-                }
-                submitBtn.disabled = false;
-            }, 1500);
+            //         let html = '';
+            //         mockData.suggestions.forEach((suggestion, index) => {
+            //             html += `
+            //                 <div class="suggestion-item" style="animation-delay: ${index * 0.2}s">
+            //                     <div class="job-title">${suggestion.title}</div>
+            //                     <div class="job-description">${suggestion.description}</div>
+            //                 </div>
+            //             `;
+            //         });
+            //         suggestionsDiv.innerHTML = html;
+            //     } catch (error) {
+            //         console.error('Error:', error);
+            //         suggestionsDiv.innerHTML = '<p class="error">An error occurred while generating suggestions. Please try again later.</p>';
+            //     }
+            //     submitBtn.disabled = false;
+            // }, 1500);
 
             // Uncomment the below code and replace the setTimeout mock above when implementing with a real API
-            /*
+            
             fetch('/suggest', {
                 method: 'POST',
                 headers: {
@@ -435,7 +435,7 @@
             .finally(() => {
                 submitBtn.disabled = false;
             });
-            */
+            
         }
     </script>
 </body>

@@ -139,7 +139,7 @@
   <h1>AI-Powered Mock Interview</h1>
   <button id="start-btn">Start Mock Interview</button>
 
-  <div id="interview-section">
+  <div id="interview-section" style="display: none;">
     <form id="interview-form">
       <div>
         <label>1. Tell me about yourself:</label>
@@ -150,8 +150,16 @@
         <textarea name="q2" required></textarea>
       </div>
       <div>
-        <label>3. Why should we hire you?</label>
+        <label>3. Why do you want to work here?</label>
         <textarea name="q3" required></textarea>
+      </div>
+      <div>
+        <label>4. Where do you see yourself in 5 years?</label>
+        <textarea name="q4" required></textarea>
+      </div>
+      <div>
+        <label>5. Why should we hire you?</label>
+        <textarea name="q5" required></textarea>
       </div>
       <button type="submit">Submit Answers</button>
     </form>
@@ -173,16 +181,23 @@
       const formData = new FormData(this);
       const answers = Object.fromEntries(formData.entries());
 
-      const response = await fetch("/mock_interview/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(answers)
-      });
-
-      const data = await response.json();
       const feedbackDiv = document.getElementById("feedback");
-      feedbackDiv.innerHTML = `<h3>Feedback</h3><p>${data.feedback}</p>`;
       feedbackDiv.style.display = "block";
+      feedbackDiv.innerHTML = `<p>⏳ Generating feedback... Please wait.</p>`;
+
+      try {
+        const response = await fetch("/mock_interview/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(answers)
+        });
+
+        const data = await response.json();
+        feedbackDiv.innerHTML = `<h3>Feedback</h3><p>${data.feedback}</p>`;
+      } catch (error) {
+        feedbackDiv.innerHTML = `<p style="color: red;">❌ Failed to get feedback. Please try again later.</p>`;
+        console.error('Error:', error);
+      }
     });
   </script>
 </body>

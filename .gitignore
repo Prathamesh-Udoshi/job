@@ -1,2 +1,5 @@
 ./utils/youtube_api.py
-./utils/mock_logic.py
+./utils/ai_logic.py
+./app.py
+./static/script.js
+./ai_logic.py

@@ -3,3 +3,7 @@ PyPDF2
 google-api-python-client
 gtts
 googletrans==4.0.0-rc1
+requests
+google-generativeai
+python-dotenv
+Pillow
